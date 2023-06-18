@@ -1,5 +1,5 @@
 /**
- * @description       : 
+ * @description       : REST class for Contract control methods
  * @author            : Mathieu Foulon
  * @group             : 
  * @last modified on  : 18-06-2023
@@ -8,6 +8,14 @@
 @RestResource(urlMapping='/Contracts/*')
 global with sharing class ContractREST {
 
+    /**
+    * @description Triggered by POST request, create contract 
+    * @author Mathieu Foulon | 18-06-2023 
+    * @param Id contractAccountId 
+    * @param String contractStatus 
+    * @param Date contractStartDate 
+    * @param Integer contractNumberOfMonth 
+    **/
     @HttpPost
     global static void createContract(Id contractAccountId, String contractStatus, Date contractStartDate, Integer contractNumberOfMonth) {
 
@@ -46,6 +54,11 @@ global with sharing class ContractREST {
         }
     }
 
+    /**
+    * @description Triggered by PATCH request, modifies contract by its parameters in body. 
+    * Params must be strictly named Salesforce style
+    * @author Mathieu Foulon | 18-06-2023 
+    **/
     @HttpPatch
     global static void updateContract() {
 
