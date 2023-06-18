@@ -17,7 +17,7 @@ global with sharing class ContractREST {
     * @param Integer contractNumberOfMonth 
     **/
     @HttpPost
-    global static void createContract(Id contractAccountId, String contractStatus, Date contractStartDate, Integer contractNumberOfMonth) {
+    global static void createContract(String contractAccountId, String contractStatus, Date contractStartDate, Integer contractNumberOfMonth) {
 
         RestResponse res = RestContext.response;
             if (res == null) {
@@ -28,11 +28,12 @@ global with sharing class ContractREST {
         res.addHeader('Content-Type', 'application/json');
 
         try {
-            Contract contract = New Contract (
+            Contract contract = New Contract(
             AccountId = contractAccountId,
             Status = contractStatus,
             StartDate = contractStartDate,
-            ContractTerm = contractNumberOfMonth);
+            ContractTerm = contractNumberOfMonth
+            );
 
             insert contract;
             
@@ -86,7 +87,7 @@ global with sharing class ContractREST {
             
             Map<String, String> responseValuesMap = new Map<String, String>{
                 'Id' => contract.Id,
-                'Message' => 'Contract succesfully created'
+                'Message' => 'Contract succesfully updated'
             };
 
             res.responseBody = Blob.valueOf(JSON.serialize(responseValuesMap));
