@@ -2,7 +2,7 @@
  * @description       : REST class for Contact control methods
  * @author            : Mathieu Foulon
  * @group             : 
- * @last modified on  : 17-06-2023
+ * @last modified on  : 18-06-2023
  * @last modified by  : Mathieu Foulon
 **/
 @RestResource(urlMapping='/Contacts/*')
@@ -103,8 +103,8 @@ global with sharing class ContactREST {
             // So, we deserialize in a Map the stringified version of the body, then loop through it to modify contact via put(String, Object) method
             Map<String, Object> JsonReqBodyToMap = (Map<String, Object>)JSON.deserializeUntyped(request.requestbody.toString());
             
-            for(String fieldName : JsonReqBodyToMap.keySet()) {
-                contact.put(fieldName, JsonReqBodyToMap.get(fieldName));
+            for(String field : JsonReqBodyToMap.keySet()) {
+                contact.put(field, JsonReqBodyToMap.get(field));
             }
 
             update contact;
@@ -128,7 +128,7 @@ global with sharing class ContactREST {
     } 
 
     /**
-    * @description Triggered by DELETE request, deactivate a contact, not deleting him.
+    * @description Triggered by DELETE request, deactivate a contact, not deleting it.
     * @author Mathieu Foulon | 17-06-2023 
     **/
     @HttpDelete

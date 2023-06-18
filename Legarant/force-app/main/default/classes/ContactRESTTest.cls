@@ -1,8 +1,8 @@
 /**
- * @description       : 
+ * @description       : Test Class for ContactREST
  * @author            : Mathieu Foulon
  * @group             : 
- * @last modified on  : 17-06-2023
+ * @last modified on  : 18-06-2023
  * @last modified by  : Mathieu Foulon
 **/
 @isTest
@@ -102,10 +102,6 @@ public with sharing class ContactRESTTest {
         ContactREST.createContact('lololol', 'lololol', 'lololol','lololo');
         Test.stopTest();
         
-    
-        
-        Map<String, Object> responseBody = (Map<String, Object>)JSON.deserializeUntyped(res.responseBody.toString());
-
         Assert.areEqual(400, res.statusCode);
 
     }
@@ -128,11 +124,13 @@ public with sharing class ContactRESTTest {
         Test.startTest();
         ContactREST.updateContact();
         Test.stopTest();
+        
         Contact updatedContact = [SELECT Id, FirstName, LastName, Email FROM Contact WHERE Email = 'sacrebleu@megalol.com' LIMIT 1];
         Map<String, Object> responseBody = (Map<String, Object>)JSON.deserializeUntyped(res.responseBody.toString());
-        Assert.areNotEqual(null, updatedContact.Email);
+
+        Assert.areEqual(updatedContact.Id, (String)responseBody.get('Id'));
         Assert.AreEqual(200, res.statusCode);
-        Assert.areNotEqual('contactemail@contactemail.com', UpdatedContact.Email);
+        Assert.areNotEqual('contactemail@contactemail.com', updatedContact.Email);
         
     } 
 
@@ -154,9 +152,6 @@ public with sharing class ContactRESTTest {
         Test.startTest();
         ContactREST.updateContact();
         Test.stopTest();
-
-        Contact updatedContact = [SELECT Id, FirstName, LastName, Email FROM Contact WHERE Email = 'contactemail@contactemail.com' LIMIT 1];
-        Map<String, Object> responseBody = (Map<String, Object>)JSON.deserializeUntyped(res.responseBody.toString());
 
         Assert.areEqual(400, res.statusCode);
         
@@ -182,7 +177,6 @@ public with sharing class ContactRESTTest {
         Test.stopTest();
     
         Contact deactivatedContact = [SELECT Id, FirstName, LastName, Email, Active__c FROM Contact WHERE Id = :contact.Id];
-        Map<String, Object> responseBody = (Map<String, Object>)JSON.deserializeUntyped(res.responseBody.toString());
         
         Assert.areEqual(false, deactivatedContact.Active__c);
         Assert.areEqual(200, res.statusCode);
@@ -204,8 +198,6 @@ public with sharing class ContactRESTTest {
         Test.startTest();
         ContactRest.deleteContact();
         Test.stopTest();
-    
-        Map<String, Object> responseBody = (Map<String, Object>)JSON.deserializeUntyped(res.responseBody.toString());
 
         Assert.areEqual(400, res.statusCode);
       }
